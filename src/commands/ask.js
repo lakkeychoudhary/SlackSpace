@@ -1,7 +1,7 @@
-// ─── /sp-ask — AI-powered question answering (DeepSeek API) ────
+// ─── /sp-ask — AI-powered question answering (Groq API) ────
 // Ask any question and get an intelligent response
 
-const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) {
   app.command(`/${BOT_PREFIX}-ask`, async ({ command, ack, respond }) => {
@@ -9,7 +9,6 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
 
     const question = command.text.trim();
 
-    // No question provided — show usage
     if (!question) {
       await respond({
         text: "🤖 Ask me anything! Usage: `/sp-ask What is quantum computing?`",
@@ -38,7 +37,7 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
             elements: [
               {
                 type: "mrkdwn",
-                text: `🧠 Powered by DeepSeek AI · <@${command.user_id}>`,
+                text: `🧠 Powered by Llama 3.3 70B (Groq) · <@${command.user_id}>`,
               },
             ],
           },
@@ -47,17 +46,16 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
       return;
     }
 
-    // Check if API key is configured
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       await respond({
-        text: "🤖 AI is not configured yet — DEEPSEEK_API_KEY is missing.",
+        text: "🤖 AI is not configured yet — GROQ_API_KEY is missing.",
         blocks: [
           {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `🤖 *${BOT_NAME} AI*\n\n❌ The AI assistant is not configured. Please add \`DEEPSEEK_API_KEY\` to the server's \`.env\` file.`,
+              text: `🤖 *${BOT_NAME} AI*\n\n❌ AI assistant not configured. Add \`GROQ_API_KEY\` to server \`.env\`.`,
             },
           },
         ],
@@ -65,25 +63,23 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
       return;
     }
 
-    // Show "thinking" indicator
     const startTime = Date.now();
 
     try {
-      // Call DeepSeek API
       const response = await axios.post(
-        DEEPSEEK_API_URL,
+        GROQ_API_URL,
         {
-          model: "deepseek-chat",
+          model: "llama-3.3-70b-versatile",
           messages: [
             {
               role: "system",
               content: [
-                "You are SlackSpace, a friendly, helpful AI assistant built for the Hack Club community.",
+                "You are SlackSpace, a friendly AI assistant built for the Hack Club community by @lakkeychoudhary.",
                 "You are knowledgeable about technology, coding, science, and general topics.",
                 "Keep responses concise but helpful — under 1500 characters.",
                 "Use emoji where appropriate.",
                 "If the question is about coding, provide code examples when helpful.",
-                "Be warm, enthusiastic, and encouraging — you're part of the Hack Club family!",
+                "Be warm, enthusiastic, and encouraging!",
               ].join(" "),
             },
             {
@@ -105,20 +101,15 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
 
       const answer = response.data.choices[0]?.message?.content;
       const latency = Date.now() - startTime;
-      const model = response.data.model || "deepseek-chat";
+      const model = response.data.model || "llama-3.3-70b-versatile";
 
       if (!answer) {
         throw new Error("No response from AI");
       }
 
-      // Truncate if too long for Slack (max ~4000 chars)
       const truncated = answer.length > 3800
         ? answer.slice(0, 3800) + "\n\n... _(response truncated)_"
         : answer;
-
-      // Check cache stats
-      const cacheHits = cache.stats.hits;
-      const cacheMisses = cache.stats.misses;
 
       await respond({
         text: truncated,
@@ -137,9 +128,9 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
                 type: "mrkdwn",
                 text: [
                   `🧠 *${BOT_NAME} AI*`,
-                  `⏱ Response: \`${latency}ms\``,
-                  `🤖 Model: \`${model}\``,
-                  `👤 Asked by <@${command.user_id}>`,
+                  `⏱ \`${latency}ms\``,
+                  `🤖 \`${model}\``,
+                  `👤 <@${command.user_id}>`,
                 ].join(" · "),
               },
             ],
@@ -157,11 +148,13 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
       if (err.response?.status === 429) {
         errorMessage = "⏳ Rate limit hit — too many requests. Try again in a moment!";
       } else if (err.code === "ECONNABORTED" || err.message.includes("timeout")) {
-        errorMessage = "🐢 The AI is taking too long to respond. Try a simpler question!";
+        errorMessage = "🐢 The AI took too long. Try a simpler question!";
       } else if (err.response?.status === 401) {
-        errorMessage = "🔑 API key is invalid. Please check the DEEPSEEK_API_KEY configuration.";
+        errorMessage = "🔑 API key is invalid. Check GROQ_API_KEY config.";
+      } else if (err.response?.status === 402) {
+        errorMessage = "💳 Insufficient API credits. Please check your Groq account balance.";
       } else {
-        errorMessage = "💔 Something went wrong with the AI. Please try again later!";
+        errorMessage = `💔 Something went wrong: ${err.message}`;
       }
 
       await respond({
@@ -171,7 +164,7 @@ module.exports = function (app, { BOT_PREFIX, BOT_NAME, axios, cache, logger }) 
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `🤖 *${BOT_NAME} AI*\n\n${errorMessage}\n\n_Troubleshooting tip: Make sure the DeepSeek API is accessible from the server._`,
+              text: `🤖 *${BOT_NAME} AI*\n\n${errorMessage}`,
             },
           },
           {
