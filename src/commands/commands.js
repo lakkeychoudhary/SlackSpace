@@ -87,6 +87,15 @@ const commands = [
     handler: "./define.js",
   },
 
+  // ── AI ──────────────────────────────────────────────
+  {
+    name: `${BOT_PREFIX}-ask`,
+    description: "Ask AI any question (DeepSeek powered)",
+    emoji: "🤖",
+    category: "AI",
+    handler: "./ask.js",
+  },
+
   // ── Help ───────────────────────────────────────────
   {
     name: `${BOT_PREFIX}-help`,
