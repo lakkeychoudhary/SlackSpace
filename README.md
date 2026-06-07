@@ -303,9 +303,9 @@ SlackSpace/
 
 ## 🤝 Contributing
 
-This is a personal project by **@lakkeychoudhary**.
+This is a personal project by **[@lakkeychoudhary](https://github.com/lakkeychoudhary)**.
 
-For commit guidelines, see the [Commit Like a Human](#-commit-like-a-human) section in the repo.
+For commit guidelines, see the [Commit Like a Human](CONTRIBUTING.md#-commit-like-a-human) section in the repo.
 
 ---
 
