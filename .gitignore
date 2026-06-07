@@ -1,0 +1,22 @@
+# ─── Secrets ────────────────────────────────────────
+.env
+.env.local
+
+# ─── Dependencies ──────────────────────────────────
+node_modules/
+
+# ─── OS Files ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ─── IDE/Editor ────────────────────────────────────
+.idea/
+.vscode/
+*.sublime-workspace
+
+# ─── Logs ──────────────────────────────────────────
+*.log
+npm-debug.log*

@@ -1,0 +1,27 @@
+{
+  "name": "slackspace-bot",
+  "version": "1.0.0",
+  "description": "🚀 SlackSpace - The fastest Slack bot in the galaxy. Built for Hack Club Stardance.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": ["slack", "bot", "slackspace", "hackclub", "stardance"],
+  "author": "lakkeychoudhary",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakkeychoudhary/SlackSpace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lakkeychoudhary/SlackSpace/issues"
+  },
+  "homepage": "https://github.com/lakkeychoudhary/SlackSpace#readme",
+  "dependencies": {
+    "@slack/bolt": "^4.2.1",
+    "dotenv": "^16.4.7",
+    "axios": "^1.7.9"
+  }
+}
