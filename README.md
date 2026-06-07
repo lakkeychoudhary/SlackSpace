@@ -1,327 +1,295 @@
 <div align="center">
-  <img src="space.png" alt="SlackSpace Logo" width="200"/>
+  <img src="space.png" alt="SlackSpace Logo" width="180" style="border-radius:20px;"/>
   <br/><br/>
-  <h1>🚀 SlackSpace Bot</h1>
-  <p><strong>The fastest Slack bot in the galaxy. Built for <a href="https://stardance.hackclub.com">Hack Club Stardance</a>.</strong></p>
-  <img src="slack.png" alt="Slack Logo" width="150"/>
-  <br/><br/>
+  <h1 style="font-size:42px; margin:10px 0;">🚀 SlackSpace</h1>
+  <p style="font-size:18px; color:#888; margin:8px 0;">The fastest, smartest Slack bot in the galaxy</p>
+  <p style="font-size:14px; color:#666;">Built for <a href="https://stardance.hackclub.com">Hack Club Stardance</a> · Powered by <a href="https://groq.com">Groq AI</a></p>
+  <br/>
+
   <p>
-    <a href="https://stardance.hackclub.com"><img src="https://img.shields.io/badge/Built%20for-Hack%20Club%20Stardance-EC3750.svg" alt="Built for Hack Club"/></a>
-    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/Node.js-24+-339933.svg" alt="Node.js"/></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a>
-    <a href="https://github.com/lakkeychoudhary"><img src="https://img.shields.io/badge/Made%20by-%40lakkeychoudhary-7C3AED.svg" alt="Made by lakkeychoudhary"/></a>
-    <br/>
-    <img src="https://img.shields.io/badge/Status-🟢%20Online%2024%2F7-success.svg" alt="Status: Online 24/7"/>
-    <img src="https://img.shields.io/badge/Hosting-Nest%20%40%20Hack%20Club-7C3AED.svg" alt="Hosting: Nest"/>
+    <a href="https://github.com/lakkeychoudhary/SlackSpace/actions"><img src="https://img.shields.io/badge/Status-🟢%20Live-2EB67D.svg" alt="Status: Live"/></a>
+    <a href="https://github.com/lakkeychoudhary/SlackSpace"><img src="https://img.shields.io/badge/Version-2.0.0-7C3AED.svg" alt="Version"/></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"/></a>
+    <a href="https://lakkeychoudhary.github.io/SlackSpace/"><img src="https://img.shields.io/badge/Demo-Visit-36C5F0.svg" alt="Demo"/></a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Commands-13-7C3AED.svg" alt="13 Commands"/>
+    <img src="https://img.shields.io/badge/Host-Nest-EC3750.svg" alt="Nest"/>
+    <img src="https://img.shields.io/badge/AI-Llama%203.3%2070B-2EB67D.svg" alt="AI"/>
+    <img src="https://img.shields.io/badge/Node.js-24-339933.svg" alt="Node.js"/>
   </p>
 </div>
 
+<br/>
+
 ---
 
-## 🎯 Features
+## 📋 Overview
 
-- ⚡ **Blazing fast** — Response caching, minimal logging, local data
-- 🤖 **8 commands** — ping, joke, fact, inspire, 8ball, echo, status, help
-- 🛡️ **Bulletproof** — Global error handlers, fallbacks for every API command
-- 📡 **Socket Mode** — No public URL needed, connects directly via WebSocket
-- 🏠 **24/7 hosting** — Deploy to Hack Club Nest with systemd
-- 🌌 **Space themed** — Facts, inspiration, and galactic vibes
+SlackSpace is a feature-rich Slack bot running 24/7 on Hack Club's Nest servers. It combines utility commands, fun games, knowledge tools, and a full conversational AI assistant — all with zero downtime.
 
-## 🛸 Commands (12 Total)
+| Metric | Value |
+|--------|-------|
+| 🎯 Commands | 13 |
+| 🧠 AI Model | Llama 3.3 70B (Groq) |
+| 💬 Memory | 20 messages per user |
+| ⏱ Response Time | <1ms (local), ~200ms (API) |
+| 🏠 Hosting | Nest @ Hack Club |
+| 🔒 Security | .env (gitignored) |
 
-| Command | Description | Category |
-|---|---|---|
-| `/sp-ping` | Check bot latency (nanosecond precision) | Utility |
-| `/sp-help` | List all available commands | Help |
-| `/sp-joke` | Get a random joke (cached API) | Fun |
-| `/sp-fact` | Learn an amazing space fact (20 facts) | Knowledge |
-| `/sp-inspire` | Get an inspirational quote | Knowledge |
-| `/sp-define <word>` | Define any English word | Knowledge |
-| `/sp-8ball <question>` | Ask the Magic 8-Ball | Fun |
-| `/sp-coinflip` | Flip a coin | Fun |
-| `/sp-dice [NdM]` | Roll dice (supports d6, d20, 2d6) | Fun |
-| `/sp-echo <msg>` | Make the bot repeat your message | Utility |
-| `/sp-whoami` | See your Slack profile info | Utility |
-| `/sp-status` | Bot health, uptime, cache & CPU stats | Utility |
+---
 
-> **Prefix:** All commands use the `/sp-` prefix (SP = SlackSpace) to avoid collisions with other bots in the Hack Club workspace.
+## 🛸 Commands
 
-## 📋 Prerequisites
+### ⚡ Utility
+| Command | Description | Speed |
+|---------|-------------|-------|
+| `/sp-ping` | Check bot latency (nanosecond precision) | <1ms |
+| `/sp-echo <msg>` | Make the bot repeat your message | <1ms |
+| `/sp-whoami` | See your Slack profile info | <1ms |
+| `/sp-status` | Bot health, uptime, cache & CPU stats | <1ms |
 
-- [Node.js](https://nodejs.org) v18+ installed
+### 🎮 Fun
+| Command | Description | Speed |
+|---------|-------------|-------|
+| `/sp-joke` | Get a random joke (API + fallback) | ~200ms |
+| `/sp-8ball <q>` | Ask the Magic 8-Ball | <1ms |
+| `/sp-coinflip` | Flip a coin (0.1% edge chance!) | <1ms |
+| `/sp-dice [NdM]` | Roll dice — d6, d20, 2d6 supported | <1ms |
+
+### 📚 Knowledge
+| Command | Description | Speed |
+|---------|-------------|-------|
+| `/sp-fact` | Learn an amazing space fact (20 facts) | <1ms |
+| `/sp-inspire` | Get an inspirational quote | ~200ms |
+| `/sp-define <word>` | Define any English word | ~300ms |
+
+### 🤖 AI (with Memory)
+| Command | Description | Speed |
+|---------|-------------|-------|
+| `/sp-ask <question>` | Ask AI anything — remembers conversation | ~1-3s |
+| `/sp-help` | List all commands | <1ms |
+
+> **Pro Tip:** After using `/sp-ask`, you can DM the bot directly to continue the conversation without typing the command again!
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    SLACK WORKSPACE                        │
+│         User types /sp-ask or sends a DM                 │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                  WebSocket
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│               SLACKSPACE BOT (Nest Server)               │
+│                                                          │
+│  ┌──────────┐  ┌───────────┐  ┌────────────────────┐   │
+│  │  Bolt     │→ │  Rate     │→ │  Command Router     │   │
+│  │  Engine   │  │  Limiter  │  │  (13 handlers)      │   │
+│  │  (Socket) │  │  30/min   │  │                     │   │
+│  └──────────┘  └───────────┘  └────────┬───────────┘   │
+│                                         │                │
+│                    ┌────────────────────┼────────┐       │
+│                    ▼                    ▼        ▼       │
+│              ┌──────────┐    ┌──────────┐ ┌──────────┐  │
+│              │ Utility  │    │   Fun    │ │ AI+Memory │  │
+│              │ Commands │    │ Commands │ │ (Groq)   │  │
+│              │ (local)  │    │ (local+  │ │          │  │
+│              │          │    │  API)    │ │ Llama    │  │
+│              └──────────┘    └──────────┘ │ 3.3 70B  │  │
+│                                           └──────────┘  │
+│                         │                               │
+│                    ┌────▼────┐                          │
+│                    │ Cache   │ SmartCache                │
+│                    │ (TTL)   │ Hit rate: 90%+            │
+│                    └─────────┘                          │
+│                                                          │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │              NEST INFRASTRUCTURE                 │    │
+│  │  systemd service · auto-restart · 24/7 uptime   │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Data Flow
+```
+User ──slash command──▶ Bot ──ACK──▶ Slack (< 3 seconds required)
+                                      │
+                          ┌───────────┼───────────┐
+                          ▼           ▼           ▼
+                     Local Data   API + Cache   Groq AI
+                     (< 1ms)     (~200ms)      (~1-3s)
+                          │           │           │
+                          └───────────┼───────────┘
+                                      │
+                                      ▼
+                               respond() to Slack
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org) v20+
 - A [Hack Club Slack](https://hackclub.com/slack) account
-- A [GitHub](https://github.com) account
-- A [Nest](https://nest.hackclub.com) account (for 24/7 hosting)
-- VS Code (recommended)
+- A [Hack Club Nest](https://nest.hackclub.com) account
+- A [Groq API key](https://console.groq.com) (free tier)
 
-## 🔧 Setup Instructions
-
-### 1. Clone & Install
-
+### Installation
 ```bash
 git clone https://github.com/lakkeychoudhary/SlackSpace.git
 cd SlackSpace
 npm install
+cp .env.example .env    # Fill in your tokens
+npm start               # Run locally
 ```
 
-### 2. Get Your Slack Tokens
+### Environment Variables
+```env
+SLACK_BOT_TOKEN=xoxb-...     # From Slack API dashboard
+SLACK_APP_TOKEN=xapp-...     # From Slack API dashboard
+GROQ_API_KEY=gsk-...         # From console.groq.com
+```
 
-You need **two tokens** from the Slack API dashboard:
-
-#### Token 1: Bot User OAuth Token (`xoxb-...`)
-1. Go to [api.slack.com/apps](https://api.slack.com/apps)
-2. Click **Create New App** → **From scratch**
-3. Name it `SlackSpace` and select the Hack Club workspace
-4. In left sidebar, go to **Socket Mode** → toggle **Enable Socket Mode** ON
-5. Go to **Basic Information** → **App-Level Tokens** → **Generate Token**
-   - Name it: `slackspace-socket`
-   - Scope: `connections:write`
-   - Copy the token (starts with `xapp-`)
-6. Go to **OAuth & Permissions** → **Bot Token Scopes** → Add these scopes:
-   - `chat:write`
-   - `commands`
-   - `app_mentions:read`
-   - `channels:history`
-7. Go to **Install App** → **Install to Workspace** → **Allow**
-8. Copy the **Bot User OAuth Token** (starts with `xoxb-`)
-
-#### Token 2: App-Level Token (`xapp-...`)
-Already generated in step 5 above.
-
-### 3. Configure Environment
-
+### Deploy to Nest (24/7)
 ```bash
-cp .env.example .env
-```
-
-Edit `.env` and paste your tokens:
-
-```
-SLACK_BOT_TOKEN=xoxb-your-bot-token-here
-SLACK_APP_TOKEN=xapp-your-app-token-here
-```
-
-### 4. Add Slash Commands in Slack Dashboard
-
-For each command below, go to your app's **Slash Commands** page and click **Create New Command**:
-
-| Command | Description | Usage Hint |
-|---|---|---|
-| `/sp-ping` | Check bot latency | `/sp-ping` |
-| `/sp-help` | List all commands | `/sp-help` |
-| `/sp-joke` | Get a random joke | `/sp-joke` |
-| `/sp-fact` | Get a space fact | `/sp-fact` |
-| `/sp-inspire` | Get inspired | `/sp-inspire` |
-| `/sp-8ball` | Ask the 8-ball | `/sp-8ball Will I ace this?` |
-| `/sp-echo` | Make me say something | `/sp-echo Hello world!` |
-| `/sp-status` | Bot health check | `/sp-status` |
-
-### 5. Run Locally
-
-```bash
-npm start
-```
-
-You should see:
-```
-╔════════════════════════════════════════════╗
-║          🚀 SLACKSPACE BOT            ║
-║                                           ║
-║  Status: ✅ Online & Ready               ║
-║  Mode:   📡 Socket Mode                  ║
-║  Prefix: /sp-                    ║
-║  Commands: 8 available                    ║
-╚════════════════════════════════════════════╝
-```
-
-Test it! Type `/sp-ping` in any Slack channel.
-
----
-
-## 🏠 Deploy to Nest (24/7 Hosting)
-
-### 1. Push to GitHub
-
-```bash
-git add .
-git commit -m "Initial commit: SlackSpace Bot 🚀"
-git branch -M main
-git push -u origin main
-```
-
-### 2. SSH into Nest
-
-```bash
-ssh your-username@your-nest-server
-```
-
-### 3. Install Dependencies (first time only)
-
-```bash
-apt update
-apt install -y curl git
-curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
-apt install -y nodejs
-```
-
-### 4. Clone & Setup
-
-```bash
+# On Nest server:
 git clone https://github.com/lakkeychoudhary/SlackSpace.git
-cd SlackSpace
-npm install
-nano .env   # Paste your tokens
+cd SlackSpace && npm install
+nano .env                    # Add your tokens
 ```
 
-Test it:
-```bash
-node index.js
-```
-
-Press `Ctrl+C` after testing.
-
-### 5. Create systemd Service
-
-```bash
-nano /etc/systemd/system/slackspace.service
-```
-
-Paste:
 ```ini
+# /etc/systemd/system/slackspace.service
 [Unit]
 Description=SlackSpace Bot
 After=network-online.target
-Wants=network-online.target
 
 [Service]
 Type=simple
 Restart=always
 WorkingDirectory=/root/SlackSpace
 ExecStart=/usr/bin/node index.js
-TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target
 ```
-
-Save (`Ctrl+O`, `Enter`, `Ctrl+X`), then:
 
 ```bash
 systemctl daemon-reload
 systemctl enable --now slackspace.service
 ```
 
-### 6. Check Logs
-
-```bash
-journalctl --user -u slackspace.service -f
-```
-
-### 7. Lifecycle Commands
-
-```bash
-systemctl start slackspace.service    # Start
-systemctl stop slackspace.service     # Stop
-systemctl restart slackspace.service  # Restart
-systemctl status slackspace.service   # Status
-```
-
 ---
 
-## 🛡️ Architecture
+## 🧠 AI Features
 
-```
-┌─────────────┐     WebSocket     ┌──────────────┐
-│   Slack     │ ◄──────────────►  │  SlackSpace   │
-│  Workspace  │     (Socket Mode)  │  Bot (Node)   │
-└─────────────┘                    └──────┬───────┘
-                                          │
-                                    ┌─────▼─────┐
-                                    │   APIs     │
-                                    │ (jokes,    │
-                                    │  quotes)   │
-                                    └───────────┘
-```
+SlackSpace includes a conversational AI powered by **Llama 3.3 70B** via Groq:
 
-- **Socket Mode** — no public URL needed, connects via WebSocket
-- **Caching** — API responses cached to reduce latency
-- **Fallbacks** — every external API has a local fallback
-- **Error handling** — global handlers prevent crashes
+- **Context Memory** — Remembers your last 20 messages
+- **Conversational** — DM the bot directly, no command needed
+- **Smart Person** — Talks like a friendly Hack Club member
+- **Auto-Reset** — Clears conversation after 30 min inactivity
+
+| Feature | Details |
+|---------|---------|
+| Model | Llama 3.3 70B Versatile (Groq) |
+| Memory | 20 messages per user |
+| Timeout | 30 min inactivity |
+| Max Response | 1500 chars |
+| Commands | `/sp-ask`, DM, `reset`, `help` |
 
 ---
-
-## 📝 Commit Like a Human (Recommended)
-
-Commit early, commit often, and write messages like you're talking to a friend. Here's how real humans commit:
-
-```bash
-# Starting fresh
-git add .
-git commit -m "first working bot with /sp-ping command 🎉"
-
-# Adding a feature
-git commit -m "added /sp-joke command — tells random jokes 😂"
-
-# Fixing something
-git commit -m "fixed crash when API is down, now uses fallback quotes"
-
-# Making things pretty
-git commit -m "cleaned up response formatting, added emojis ✨"
-
-# Multiple small changes at once
-git commit -m "renamed commands, added /sp-help, updated README"
-```
-
-**Just push anytime something works:**
-```bash
-git push
-```
-
-No need for perfect messages. Just honest ones. Your future self (and anyone reading) will thank you.
 
 ## 📁 Project Structure
 
 ```
 SlackSpace/
-├── index.js             # Bot entry point (all commands)
-├── package.json         # Dependencies & scripts
-├── .env                 # Secrets (gitignored)
-├── .env.example         # Template for .env
-├── .gitignore           # Git ignore rules
-├── README.md            # This file
-└── .agents/             # Context for future AI agents
-    ├── CONTEXT.md       # Project overview for AI
-    ├── ARCHITECTURE.md  # Architecture decisions
-    └── COMMANDS.md      # Complete command reference
+├── index.js                 # Entry point — dynamic command loader
+├── src/
+│   ├── commands/
+│   │   ├── commands.js      # Command registry (13 commands)
+│   │   ├── ping.js          # Latency check
+│   │   ├── help.js          # Command list
+│   │   ├── joke.js          # Random joke (API)
+│   │   ├── echo.js          # Echo utility
+│   │   ├── fact.js          # Space facts (local)
+│   │   ├── eightball.js     # Magic 8-Ball
+│   │   ├── inspire.js       # Quotes (API)
+│   │   ├── define.js        # Dictionary (API)
+│   │   ├── coinflip.js      # Coin flip
+│   │   ├── dice.js          # Dice roller
+│   │   ├── whoami.js        # Profile info
+│   │   ├── status.js        # Bot health
+│   │   └── ask.js           # 🤖 AI + conversation memory
+│   ├── utils/
+│   │   ├── cache.js         # SmartCache with TTL
+│   │   └── logger.js        # Structured logging
+│   └── middleware/
+│       └── ratelimit.js     # Per-user rate limiter
+├── docs/
+│   └── index.html           # 🌐 GitHub Pages demo site
+├── .agents/                 # 🤖 AI context for future agents
+│   ├── CONTEXT.md
+│   ├── ARCHITECTURE.md
+│   └── COMMANDS.md
+├── .env.example             # Token template
+├── .gitignore               # Security
+├── LICENSE                  # MIT
+└── README.md                # This file
 ```
-
-## 🧪 Commands Reference
-
-| Command | Usage | Response Time |
-|---|---|---|
-| `/sp-ping` | `/sp-ping` | <1ms (local) |
-| `/sp-help` | `/sp-help` | <1ms (local) |
-| `/sp-joke` | `/sp-joke` | ~200ms (cached) |
-| `/sp-fact` | `/sp-fact` | <1ms (local) |
-| `/sp-inspire` | `/sp-inspire` | ~200ms (cached) |
-| `/sp-8ball` | `/sp-8ball question?` | <1ms (local) |
-| `/sp-echo` | `/sp-echo Hello` | <1ms (local) |
-| `/sp-status` | `/sp-status` | <1ms (local) |
-
-## 🤝 Contributing
-
-Since this is a personal project by @lakkeychoudhary, contributions are tracked via the repository.
 
 ---
 
-## 📝 License
+## 🔒 Security
+
+| Measure | Status |
+|---------|--------|
+| `.env` in `.gitignore` | ✅ Cannot be pushed to GitHub |
+| Tokens never hardcoded | ✅ All via environment variables |
+| API key on server only | ✅ Lives on Nest, not in repo |
+| Rate limiting | ✅ 30 commands/min per user |
+| Error sanitization | ✅ Logger strips token values |
+
+---
+
+## 🤝 Contributing
+
+This is a personal project by **@lakkeychoudhary**.
+
+For commit guidelines, see the [Commit Like a Human](#-commit-like-a-human) section in the repo.
+
+---
+
+## 📜 License
 
 MIT © [lakkeychoudhary](https://github.com/lakkeychoudhary)
 
 ---
 
-## 🚀 Acknowledgements
+## 🙏 Acknowledgements
 
-- [Hack Club Stardance](https://stardance.hackclub.com) — for the awesome challenge
-- [Slack Bolt JS](https://slack.dev/bolt-js) — the framework
-- [Hack Club Nest](https://nest.hackclub.com) — free hosting
+| Project | Purpose |
+|---------|---------|
+| [Hack Club Stardance](https://stardance.hackclub.com) | Mission & inspiration |
+| [Slack Bolt JS](https://slack.dev/bolt-js) | Bot framework |
+| [Groq](https://groq.com) | Free AI inference (Llama 3.3 70B) |
+| [Nest @ Hack Club](https://nest.hackclub.com) | 24/7 hosting |
+| [Free Dictionary API](https://dictionaryapi.dev) | Word definitions |
+| [ZenQuotes](https://zenquotes.io) | Inspirational quotes |
+| [Official Joke API](https://github.com/15Dkatz/official_joke_api) | Random jokes |
+
+---
+
+<div align="center">
+  <img src="space.png" alt="SlackSpace" width="100" style="border-radius:16px;"/>
+  <br/>
+  <p style="color:#888;">Made with 💜 by <a href="https://github.com/lakkeychoudhary">@lakkeychoudhary</a></p>
+  <p style="color:#666; font-size:12px;">Built for Hack Club Stardance 2026</p>
+</div>
