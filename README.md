@@ -76,59 +76,101 @@ SlackSpace is a feature-rich Slack bot running 24/7 on Hack Club's Nest servers.
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    SLACK WORKSPACE                        │
-│         User types /sp-ask or sends a DM                 │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-                  WebSocket
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────┐
-│               SLACKSPACE BOT (Nest Server)               │
-│                                                          │
-│  ┌──────────┐  ┌───────────┐  ┌────────────────────┐   │
-│  │  Bolt     │→ │  Rate     │→ │  Command Router     │   │
-│  │  Engine   │  │  Limiter  │  │  (13 handlers)      │   │
-│  │  (Socket) │  │  30/min   │  │                     │   │
-│  └──────────┘  └───────────┘  └────────┬───────────┘   │
-│                                         │                │
-│                    ┌────────────────────┼────────┐       │
-│                    ▼                    ▼        ▼       │
-│              ┌──────────┐    ┌──────────┐ ┌──────────┐  │
-│              │ Utility  │    │   Fun    │ │ AI+Memory │  │
-│              │ Commands │    │ Commands │ │ (Groq)   │  │
-│              │ (local)  │    │ (local+  │ │          │  │
-│              │          │    │  API)    │ │ Llama    │  │
-│              └──────────┘    └──────────┘ │ 3.3 70B  │  │
-│                                           └──────────┘  │
-│                         │                               │
-│                    ┌────▼────┐                          │
-│                    │ Cache   │ SmartCache                │
-│                    │ (TTL)   │ Hit rate: 90%+            │
-│                    └─────────┘                          │
-│                                                          │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │              NEST INFRASTRUCTURE                 │    │
-│  │  systemd service · auto-restart · 24/7 uptime   │    │
-│  └─────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph SLACK["🟣 Slack Workspace"]
+        U["👤 User"]
+        CH["📢 Channel / DM"]
+        U -->|"types /sp-ask or DM"| CH
+    end
+
+    subgraph NEST["🏠 Nest Server (Hack Club)"]
+        subgraph BOT["🤖 SlackSpace Bot"]
+            direction TB
+            BOLT["⚡ Bolt Engine<br/><i>Socket Mode</i>"]
+            RL["🛡️ Rate Limiter<br/><i>30 req/min</i>"]
+            ROUTER["🔀 Command Router<br/><i>13 handlers</i>"]
+            BOLT --> RL --> ROUTER
+        end
+
+        subgraph CMDS["📦 Commands"]
+            direction LR
+            UTIL["⚡ Utility<br/>ping, echo, whoami, status"]
+            FUN["🎮 Fun<br/>joke, 8ball, coinflip, dice"]
+            KNOW["📚 Knowledge<br/>fact, inspire, define"]
+            AI["🤖 AI + Memory<br/>ask (Llama 3.3 70B)"]
+        end
+
+        CACHE["💾 SmartCache<br/><i>TTL: 30-60s | Hit: 90%+</i>"]
+        SYSTEMD["🔄 systemd<br/><i>auto-restart | 24/7</i>"]
+    end
+
+    subgraph API["🌐 External APIs"]
+        JOKE["😂 Joke API"]
+        QUOTE["💫 ZenQuotes"]
+        DICT["📖 Dictionary"]
+        GROQ["🧠 Groq<br/><i>Llama 3.3 70B</i>"]
+    end
+
+    CH <-->|"WebSocket"| BOLT
+    ROUTER --> CMDS
+    UTIL --> CACHE
+    FUN --> CACHE
+    KNOW --> CACHE
+    AI --> GROQ
+    CACHE -.->|HTTP| JOKE
+    CACHE -.->|HTTP| QUOTE
+    CACHE -.->|HTTP| DICT
+
+    style SLACK fill:#4A154B,stroke:#611f69,color:#fff
+    style NEST fill:#1a1a3e,stroke:#7C3AED,color:#fff
+    style BOT fill:#12122a,stroke:#36C5F0,color:#fff
+    style CMDS fill:#12122a,stroke:#2EB67D,color:#fff
+    style API fill:#2a0a1a,stroke:#E01E5A,color:#fff
+    style AI fill:#0a2a1a,stroke:#2EB67D,color:#fff
+    style GROQ fill:#0a2a1a,stroke:#2EB67D,color:#fff
+    style SYSTEMD fill:#1a1a3a,stroke:#ECB22E,color:#fff
 ```
 
 ### Data Flow
+
+```mermaid
+sequenceDiagram
+    participant 👤 as User
+    participant 📡 as Slack
+    participant 🤖 as Bot
+    participant 💾 as Cache
+    participant 🧠 as Groq AI
+
+    👤->>📡: /sp-ask What is Python?
+    📡->>🤖: Command event (WebSocket)
+    🤖->>🤖: ACK (within 3s)
+    🤖->>🤖: Rate limit check
+    🤖->>🧠: POST /v1/chat/completions
+    🧠-->>🤖: AI response (~1-3s)
+    🤖->>🤖: Add to conversation history
+    🤖->>📡: respond(text)
+    📡->>👤: Bot replies in channel
+
+    Note over 👤,🤖: Follow-up (DM - no command needed!)
+    👤->>📡: How do I learn it?
+    📡->>🤖: DM message
+    🤖->>🤖: Add user msg to context
+    🤖->>🧠: Send full conversation history
+    🧠-->>🤖: Context-aware response
+    🤖->>📡: respond(text)
+    📡->>👤: Bot remembers the conversation
 ```
-User ──slash command──▶ Bot ──ACK──▶ Slack (< 3 seconds required)
-                                      │
-                          ┌───────────┼───────────┐
-                          ▼           ▼           ▼
-                     Local Data   API + Cache   Groq AI
-                     (< 1ms)     (~200ms)      (~1-3s)
-                          │           │           │
-                          └───────────┼───────────┘
-                                      │
-                                      ▼
-                               respond() to Slack
+
+### Command Categories
+
+```mermaid
+pie title Command Distribution by Category
+    "Utility (4)" : 4
+    "Fun (4)" : 4
+    "Knowledge (3)" : 3
+    "AI (1)" : 1
+    "Help (1)" : 1
 ```
 
 ---
