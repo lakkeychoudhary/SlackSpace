@@ -235,6 +235,37 @@ systemctl status slackspace.service   # Status
 - **Fallbacks** — every external API has a local fallback
 - **Error handling** — global handlers prevent crashes
 
+---
+
+## 📝 Commit Like a Human (Recommended)
+
+Commit early, commit often, and write messages like you're talking to a friend. Here's how real humans commit:
+
+```bash
+# Starting fresh
+git add .
+git commit -m "first working bot with /sp-ping command 🎉"
+
+# Adding a feature
+git commit -m "added /sp-joke command — tells random jokes 😂"
+
+# Fixing something
+git commit -m "fixed crash when API is down, now uses fallback quotes"
+
+# Making things pretty
+git commit -m "cleaned up response formatting, added emojis ✨"
+
+# Multiple small changes at once
+git commit -m "renamed commands, added /sp-help, updated README"
+```
+
+**Just push anytime something works:**
+```bash
+git push
+```
+
+No need for perfect messages. Just honest ones. Your future self (and anyone reading) will thank you.
+
 ## 📁 Project Structure
 
 ```
