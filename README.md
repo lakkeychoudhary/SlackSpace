@@ -1,11 +1,20 @@
-# 🚀 SlackSpace Bot
-
-> The fastest Slack bot in the galaxy. Built for [Hack Club Stardance](https://stardance.hackclub.com).
-
-[![Built for Hack Club](https://img.shields.io/badge/Built%20for-Hack%20Club%20Stardance-EC3750.svg)](https://stardance.hackclub.com)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-339933.svg)](https://nodejs.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Made by](https://img.shields.io/badge/Made%20by-%40lakkeychoudhary-7C3AED.svg)](https://github.com/lakkeychoudhary)
+<div align="center">
+  <img src="space.png" alt="SlackSpace Logo" width="200"/>
+  <br/><br/>
+  <h1>🚀 SlackSpace Bot</h1>
+  <p><strong>The fastest Slack bot in the galaxy. Built for <a href="https://stardance.hackclub.com">Hack Club Stardance</a>.</strong></p>
+  <img src="slack.png" alt="Slack Logo" width="150"/>
+  <br/><br/>
+  <p>
+    <a href="https://stardance.hackclub.com"><img src="https://img.shields.io/badge/Built%20for-Hack%20Club%20Stardance-EC3750.svg" alt="Built for Hack Club"/></a>
+    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/Node.js-24+-339933.svg" alt="Node.js"/></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a>
+    <a href="https://github.com/lakkeychoudhary"><img src="https://img.shields.io/badge/Made%20by-%40lakkeychoudhary-7C3AED.svg" alt="Made by lakkeychoudhary"/></a>
+    <br/>
+    <img src="https://img.shields.io/badge/Status-🟢%20Online%2024%2F7-success.svg" alt="Status: Online 24/7"/>
+    <img src="https://img.shields.io/badge/Hosting-Nest%20%40%20Hack%20Club-7C3AED.svg" alt="Hosting: Nest"/>
+  </p>
+</div>
 
 ---
 
@@ -18,18 +27,22 @@
 - 🏠 **24/7 hosting** — Deploy to Hack Club Nest with systemd
 - 🌌 **Space themed** — Facts, inspiration, and galactic vibes
 
-## 🛸 Commands
+## 🛸 Commands (12 Total)
 
 | Command | Description | Category |
 |---|---|---|
-| `/sp-ping` | Check bot latency (with timestamp) | Utility |
+| `/sp-ping` | Check bot latency (nanosecond precision) | Utility |
 | `/sp-help` | List all available commands | Help |
-| `/sp-joke` | Get a random joke (API) | Fun |
-| `/sp-fact` | Learn an amazing space fact (local) | Education |
-| `/sp-inspire` | Get an inspirational quote | Motivation |
-| `/sp-8ball` | Ask the Magic 8-Ball a question | Fun |
+| `/sp-joke` | Get a random joke (cached API) | Fun |
+| `/sp-fact` | Learn an amazing space fact (20 facts) | Knowledge |
+| `/sp-inspire` | Get an inspirational quote | Knowledge |
+| `/sp-define <word>` | Define any English word | Knowledge |
+| `/sp-8ball <question>` | Ask the Magic 8-Ball | Fun |
+| `/sp-coinflip` | Flip a coin | Fun |
+| `/sp-dice [NdM]` | Roll dice (supports d6, d20, 2d6) | Fun |
 | `/sp-echo <msg>` | Make the bot repeat your message | Utility |
-| `/sp-status` | Check bot health, uptime & memory | Info |
+| `/sp-whoami` | See your Slack profile info | Utility |
+| `/sp-status` | Bot health, uptime, cache & CPU stats | Utility |
 
 > **Prefix:** All commands use the `/sp-` prefix (SP = SlackSpace) to avoid collisions with other bots in the Hack Club workspace.
 
