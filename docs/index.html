@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 SlackSpace Bot — Live Demo</title>
+  <meta name="description" content="SlackSpace - The fastest Slack bot in the galaxy. Built for Hack Club Stardance." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0a0a1a;
+      --bg-card: #12122a;
+      --bg-hover: #1a1a3a;
+      --border: #2a2a5a;
+      --text: #e0e0f0;
+      --text-dim: #8888aa;
+      --accent: #7C3AED;
+      --accent2: #36C5F0;
+      --accent3: #2EB67D;
+      --accent4: #ECB22E;
+      --accent5: #E01E5A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Starfield */
+    #stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+
+    .header .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .header .logos img {
+      height: 80px;
+      border-radius: 12px;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7C3AED, #36C5F0, #2EB67D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header .subtitle {
+      font-size: 18px;
+      color: var(--text-dim);
+      margin-top: 12px;
+    }
+
+    .header .badges {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .badge.green { border-color: var(--accent3); color: var(--accent3); }
+    .badge.blue { border-color: var(--accent2); color: var(--accent2); }
+    .badge.purple { border-color: var(--accent); color: var(--accent); }
+
+    /* Status bar */
+    .status-bar {
+      text-align: center;
+      padding: 15px;
+      background: var(--bg-card);
+      border: 1px solid var(--accent3);
+      border-radius: 12px;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent3); }
+      50% { opacity: 0.6; box-shadow: 0 0 20px var(--accent3); }
+    }
+
+    /* How to use */
+    .section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      margin: 24px 0;
+    }
+
+    .section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section h2 .icon { margin-right: 8px; }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .step-content code {
+      background: #1a1a3a;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--accent2);
+    }
+
+    /* Command Grid */
+    .command-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .command-card {
+      padding: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .command-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .command-card .cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent2);
+    }
+
+    .command-card .desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .command-card .speed {
+      font-size: 11px;
+      color: var(--accent3);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* Architecture */
+    .arch-container {
+      text-align: center;
+    }
+
+    .arch-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .arch-box {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .arch-box.slack { background: #4A154B; border: 1px solid #611f69; }
+    .arch-box.bot { background: #1a1a3a; border: 1px solid var(--accent); }
+    .arch-box.cache { background: #0a2a1a; border: 1px solid var(--accent3); }
+    .arch-box.api { background: #2a0a1a; border: 1px solid var(--accent5); }
+    .arch-box.nest { background: #2a1a0a; border: 1px solid var(--accent4); }
+
+    .arch-arrow { font-size: 20px; color: var(--text-dim); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--accent2);
+      text-decoration: none;
+    }
+
+    .footer a:hover { text-decoration: underline; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .header h1 { font-size: 32px; }
+      .command-grid { grid-template-columns: 1fr; }
+      .arch-flow { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Starfield -->
+  <canvas id="stars"></canvas>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logos">
+        <img src="../space.png" alt="SlackSpace Logo" />
+        <span style="font-size:36px;color:var(--text-dim);">+</span>
+        <img src="../slack.png" alt="Slack Logo" style="height:60px;" />
+      </div>
+      <h1>🚀 SlackSpace</h1>
+      <p class="subtitle">The fastest Slack bot in the galaxy ⚡</p>
+      <div class="badges">
+        <span class="badge purple">⚡ Socket Mode</span>
+        <span class="badge green">🟢 Live 24/7</span>
+        <span class="badge blue">🏠 Nest @ Hack Club</span>
+        <span class="badge">🎯 12 Commands</span>
+        <span class="badge">🌌 Space Themed</span>
+      </div>
+    </header>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span><strong>Bot Status:</strong> Online & Operational — Running on Hack Club Nest</span>
+    </div>
+
+    <!-- How to Use -->
+    <section class="section">
+      <h2><span class="icon">🤖</span>How to Use SlackSpace</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3>Join the Hack Club Slack</h3>
+            <p>Go to <a href="https://hackclub.com/slack/" style="color:var(--accent2);">hackclub.com/slack</a> and sign up. This is where SlackSpace lives.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3>Open any channel or DM</h3>
+            <p>Go to any channel like <code>#general</code>, <code>#random</code>, or DM the bot directly.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3>Type a command</h3>
+            <p>Type <code>/sp-ping</code> and hit Enter. The bot responds instantly with your latency!</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h3>Try all 12 commands</h3>
+            <p>Use <code>/sp-help</code> to see everything SlackSpace can do. Or jump straight to <code>/sp-joke</code> for a laugh!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="section">
+      <h2><span class="icon">🛸</span>Try It Right Now</h2>
+      <p style="color:var(--text-dim); margin-bottom:16px;">Open Slack and type any of these commands:</p>
+      <div class="command-grid">
+        <div class="command-card">
+          <div class="cmd">/sp-ping</div>
+          <div class="desc">🏓 Check bot latency (nanosecond precision)</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-help</div>
+          <div class="desc">❓ List all 12 available commands</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-joke</div>
+          <div class="desc">😂 Get a random joke (cached)</div>
+          <div class="speed">⚡ ~200ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-fact</div>
+          <div class="desc">🌌 Learn an amazing space fact</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-inspire</div>
+          <div class="desc">💫 Get inspired with a quote</div>
+          <div class="speed">⚡ ~200ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-define <word></div>
+          <div class="desc">📖 Define any English word</div>
+          <div class="speed">⚡ ~300ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-8ball <q></div>
+          <div class="desc">🔮 Ask the Magic 8-Ball</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-coinflip</div>
+          <div class="desc">🪙 Flip a coin (0.1% edge chance!)</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-dice [NdM]</div>
+          <div class="desc">🎲 Roll dice — supports d6, d20, 2d6</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-echo <msg></div>
+          <div class="desc">📢 Make the bot repeat anything</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-whoami</div>
+          <div class="desc">👤 See your Slack profile info</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+        <div class="command-card">
+          <div class="cmd">/sp-status</div>
+          <div class="desc">📊 Bot health, uptime & cache stats</div>
+          <div class="speed">⚡ < 1ms</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="section">
+      <h2><span class="icon">🏗️</span>Architecture</h2>
+      <div class="arch-flow">
+        <div class="arch-box slack">📡 Slack</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box bot">⚙️ Bot</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box cache">💾 Cache</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box api">🌐 APIs</div>
+        <div class="arch-arrow">⬆</div>
+        <div class="arch-box nest">🏠 Nest</div>
+      </div>
+      <p style="color:var(--text-dim); font-size:13px; text-align:center; margin-top:12px;">
+        WebSocket (Socket Mode) • SmartCache TTL • systemd auto-restart • 24/7 uptime
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        🚀 Built for <a href="https://stardance.hackclub.com">Hack Club Stardance</a>
+        by <a href="https://github.com/lakkeychoudhary">@lakkeychoudhary</a>
+      </p>
+      <p style="margin-top:8px;">
+        <a href="https://github.com/lakkeychoudhary/SlackSpace">📂 GitHub Repository</a>
+        &nbsp;·&nbsp;
+        <a href="https://nest.hackclub.com">🏠 Nest Hosting</a>
+        &nbsp;·&nbsp;
+        <a href="../LICENSE">📜 MIT License</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Starfield animation
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.5,
+        a: Math.random() * 0.8 + 0.2,
+        s: Math.random() * 0.02 + 0.005,
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const star of stars) {
+        star.a += star.s;
+        const alpha = (Math.sin(star.a) + 1) / 2 * 0.8 + 0.2;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
